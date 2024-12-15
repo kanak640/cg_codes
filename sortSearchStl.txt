@@ -1,0 +1,118 @@
+#include<iostream>
+#include<algorithm>
+#include<math.h>
+#include<vector>
+#include<iterator>
+#include<string>
+using namespace std;
+
+class person {
+    public:
+        string name;
+        string day, month, year;
+        string telephone;
+        string dob;
+
+       bool operator ==(const person &p2)
+          const{
+            return name == p2.name;
+        }
+
+        void getdata() {
+            cout << "Enter Name: ";
+            cin >> name;
+
+            cout << "\nEnter DOB [DD MM YYYY]: ";
+            cin >> day >> month >> year;
+
+            cout << "\nEnter Telephone: ";
+            cin >> telephone;
+
+            dob = day + "/" + month + "/" + year;
+        }
+
+        void display() const {
+            cout << "\nName: " << name;
+            cout << "\nDOB: " << dob;
+            cout << "\nTelephone: " << telephone;
+        }
+};
+
+bool compareName(const person &p1, const person &p2) {
+    return p1.name < p2.name;
+}
+
+person returnobj() {
+    person p;
+    p.getdata();
+    return p;
+}
+
+void srch(const vector<person> &v1) {
+    person p1;
+    cout << "Enter name of person to search: ";
+    cin >> p1.name;
+
+    auto itr = find(v1.begin(), v1.end(), p1);
+    if (itr != v1.end()) {
+        itr->display();
+    } else {
+        cout << "\nPerson not found.";
+    }
+}
+
+void displaydata(const vector<person> &v1) {
+    for (const auto &elem : v1) {
+        elem.display();
+        cout << endl;
+    }
+}
+
+int main() {
+    int n, ch;
+    vector<person> v1;
+
+    cout << "Enter number of persons: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        v1.push_back(returnobj());
+    }
+
+    while (true) {
+        cout << "\n1. Add person";
+        cout << "\n2. Sort";
+        cout << "\n3. Search";
+        cout << "\n4. Display";
+        cout << "\n5. Exit";
+
+        cout << "\nEnter your choice: ";
+        cin >> ch;
+
+        switch (ch) {
+            case 1:
+                v1.push_back(returnobj());
+                break;
+
+            case 2:
+                sort(v1.begin(), v1.end(), compareName);
+                break;
+
+            case 3:
+                srch(v1);
+                break;
+
+            case 4:
+                displaydata(v1);
+                break;
+
+            case 5:
+                exit(1);
+
+            default:
+                cout << "\nInvalid choice.";
+        }
+    }
+
+    return 0;
+}
